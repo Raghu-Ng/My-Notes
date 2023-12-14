@@ -11,7 +11,7 @@
 
 
 const mongoose = require('mongoose');
-const mongoURI = 'mongodb://0.0.0.0:27017/backend';
+const mongoURI = 'mongodb://0.0.0.0:27017/mynotes';
 // const mongoURI = 'mongodb://127.0.0.1:27017/mynotes';
 
 const connectToMongo = async () => {
