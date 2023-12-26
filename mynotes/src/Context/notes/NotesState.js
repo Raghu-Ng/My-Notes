@@ -1,4 +1,4 @@
-import React, {useEffect}from "react";
+import React, {useState}from "react";
 import NoteContext from "./noteContext";
 
 const NoteState = (props)=>{
@@ -8,7 +8,7 @@ const NoteState = (props)=>{
           "user": "657ed6def196957fe8c4d70f",
           "title": "My Notes App",
           "description": "Complete the my notes app",
-          "tag": "Important",
+          "tag": "Fast",
           "date": "2023-12-24T11:06:20.497Z",
           "__v": 0
         },
@@ -26,7 +26,7 @@ const NoteState = (props)=>{
           "user": "657ed6def196957fe8c4d70f",
           "title": "My Notes App",
           "description": "Complete the my notes app",
-          "tag": "Important",
+          "tag": "Main",
           "date": "2023-12-24T11:06:21.743Z",
           "__v": 0
         },
@@ -35,7 +35,7 @@ const NoteState = (props)=>{
           "user": "657ed6def196957fe8c4d70f",
           "title": "My Notes App",
           "description": "Complete the my notes app",
-          "tag": "Important",
+          "tag": "very Important",
           "date": "2023-12-24T11:06:22.300Z",
           "__v": 0
         },
@@ -78,7 +78,7 @@ const NoteState = (props)=>{
       ]
 
       // const [notes, setNotes] = useEffect(notesInitial)
-      const [notes, setNotes] = React.useState(notesInitial);
+      const [notes, setNotes] = useState(notesInitial);
 
 
     return(
