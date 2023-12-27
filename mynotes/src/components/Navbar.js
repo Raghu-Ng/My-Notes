@@ -1,12 +1,12 @@
 import React from 'react'
-import { useEffect } from 'react';
-import { Link, useLocation } from "react-router-dom";
+// import { useEffect } from 'react';
+import { Link, useLocation} from "react-router-dom";
 
 export default function Navbar() {
-  // to Know the present location in the webpage to highlight the page we are in 
+  // // to Know the present location in the webpage to highlight the page we are in 
   let location = useLocation();
-  useEffect(() => {
-  }, [location]);
+  // useEffect(() => {
+  // }, [location]);
 
   return (
     <>
