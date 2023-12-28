@@ -15,6 +15,7 @@ export default function Notes() {
  
   const updateNote = (note) => {
     ref.current.click();
+    console.log("working updateNote ")
   }
 
   const ref = useRef(null)
