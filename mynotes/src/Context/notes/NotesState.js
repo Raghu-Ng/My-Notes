@@ -4,6 +4,8 @@ import NoteContext from "./noteContext";
 const NoteState = (props) => {
   const host = "http://localhost:5000"
   const notesInitial = []
+  const [setCopiedNote] = useState(null);
+  // const [copiedNote, setCopiedNote] = useState(null);
 
   // const [notes, setNotes] = useEffect(notesInitial)
   const [notes, setNotes] = useState(notesInitial);
@@ -115,10 +117,43 @@ const copyNote = (id) => {
   }
 };
 
+ // Adding a function to copy the note to clipboard
+const copyNoteToClipboard = async (id) => {
+  const selectedNote = notes.find((note) => note._id === id);
 
+  if (selectedNote) {
+    const copiedText = `Title: ${selectedNote.title},\nTag: ${selectedNote.tag},\nDescription: ${selectedNote.description}`;
 
+    try {
+      await navigator.clipboard.writeText(copiedText);
+      console.log('Note copied to clipboard:', copiedText);
+      setCopiedNote(selectedNote); // Updating the state to indicate the copied note
+
+      // Reset the copied note state after 5 seconds
+      setTimeout(() => {
+        resetCopiedNote();
+      }, 5000);
+    } catch (err) {
+      console.error('Error copying to clipboard:', err);
+    }
+  }
+};
+// Adding a function to reset the copied note state
+const resetCopiedNote = () => {
+  setCopiedNote(null);
+};
+
+  // TODO: Implement share via email functionality
+  const shareViaEmail = (content) => {
+    // Implement share via email logic here
+  };
+
+  // TODO: Implement share via WhatsApp functionality
+  const shareViaWhatsApp = (content) => {
+    // Implement share via WhatsApp logic here
+  };
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes, copyNote }}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes, copyNote, copyNoteToClipboard, setCopiedNote, shareViaEmail, shareViaWhatsApp }}>
       {props.children}
     </NoteContext.Provider>
   )
