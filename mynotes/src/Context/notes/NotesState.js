@@ -97,11 +97,28 @@ const NoteState = (props) => {
       }
     }
     setNotes(newNotes)
-
   }
 
+  // Make a copy of an existing note
+const copyNote = (id) => {
+  const selectedNote = notes.find((note) => note._id === id);
+
+  if (selectedNote) {
+    const copiedNote = {
+      title: `Copy of ${selectedNote.title}`,
+      tag: selectedNote.tag,
+      description: selectedNote.description,
+    };
+
+    // Call the addNote function to add the copied note
+    addNote(copiedNote.title, copiedNote.tag, copiedNote.description);
+  }
+};
+
+
+
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes }}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes, copyNote }}>
       {props.children}
     </NoteContext.Provider>
   )

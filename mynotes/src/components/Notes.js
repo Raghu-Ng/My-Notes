@@ -22,7 +22,6 @@ export default function Notes() {
     editNote(note.id, note.etitle, note.etag, note.edescription)
     refClose.current.click();
     // console.log("updating....",note) 
-    // addNote(note.title, note.tag, note.description);
 }
 
 const onChange=(e)=>{

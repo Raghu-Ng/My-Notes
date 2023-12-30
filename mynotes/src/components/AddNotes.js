@@ -9,6 +9,8 @@ export default function AddNotes() {
     const handelClick= (e)=>{
         e.preventDefault()
         addNote(note.title, note.tag, note.description);
+        // emptying the boxs
+        setNote({ title: "", tag: "", description: "" });
     }
 
     const onChange=(e)=>{
@@ -29,6 +31,7 @@ export default function AddNotes() {
         name="title"
         placeholder="XYZ"
         onChange={onChange}
+        value={note.title}
       />
     </div>
     <div className="mb-3">
@@ -42,6 +45,7 @@ export default function AddNotes() {
         name="tag"
         placeholder="Tags"
         onChange={onChange}
+        value={note.tag}
       />
     </div>
     <div className="mb-3">
@@ -55,6 +59,7 @@ export default function AddNotes() {
         rows={3}
         defaultValue={""}
         onChange={onChange}
+        value={note.description}
       />      
       <div className="col-12 my-3">
         <button className="btn btn-primary" onClick={handelClick} type="submit">
