@@ -15,7 +15,7 @@ export default function Notes() {
   const  [note, setNote] = useState({id: "",  title:"", tag: "", description:""})
   const updateNote = (currentNote) => {
     ref.current.click();
-    setNote({id: currentNote._id, etitle: currentNote.title, etag: currentNote.tag, edescription: currentNote.description  })
+    setNote({id: currentNote._id, etitle: currentNote.title, etag: currentNote.tag, edescription: currentNote.description});
     // console.log("working updateNote ")
   }
   const handelClick= (e)=>{
@@ -57,6 +57,7 @@ const onChange=(e)=>{
                   value={note.etitle}
                   placeholder="XYZ"
                   onChange={onChange}
+                  minLength={5} required
                 />
               </div>
               <div className="mb-3">
@@ -83,8 +84,8 @@ const onChange=(e)=>{
                   name="edescription"
                   value={note.edescription}
                   rows={3}
-                  defaultValue={""}
                   onChange={onChange}
+                  minLength={8} required
                 />
               </div>
             </div>

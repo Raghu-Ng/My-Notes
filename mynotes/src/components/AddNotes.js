@@ -32,6 +32,7 @@ export default function AddNotes() {
         placeholder="XYZ"
         onChange={onChange}
         value={note.title}
+        minLength={5} required
       />
     </div>
     <div className="mb-3">
@@ -60,9 +61,10 @@ export default function AddNotes() {
         defaultValue={""}
         onChange={onChange}
         value={note.description}
+        minLength={8} required
       />      
       <div className="col-12 my-3">
-        <button className="btn btn-primary" onClick={handelClick} type="submit">
+        <button disabled={note.title.length<5 || note.description.length<8} className="btn btn-primary" onClick={handelClick} type="submit">
           <i className="fa-solid fa-square-plus m-2"></i>
           Add Note
         </button>

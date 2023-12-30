@@ -38,9 +38,10 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, tag, description }),
     });
-    const json = await response.json();
+    const note = await response.json();
+    setNotes(notes.concat(note))
 
-    //logic
+    //at first for checking
     // const note = {
     //   "_id": "658a1d4979f2796e024e25c4",
     //   "user": "657ed6def196957fe8c4d70f",
@@ -50,7 +51,6 @@ const NoteState = (props) => {
     //   "date": "2023-12-26T00:24:41.339Z",
     //   "__v": 0
     // };
-    setNotes(notes.concat(json))
 
   }
   // Delete a note
@@ -143,17 +143,20 @@ const resetCopiedNote = () => {
   setCopiedNote(null);
 };
 
-  // TODO: Implement share via email functionality
-  const shareViaEmail = (content) => {
-    // Implement share via email logic here
-  };
 
-  // TODO: Implement share via WhatsApp functionality
-  const shareViaWhatsApp = (content) => {
-    // Implement share via WhatsApp logic here
-  };
+const shareViaEmail = (note) => {
+  const { title, tag, description } = note;
+  const subject = encodeURIComponent(`Note: ${title}`);
+  const body = encodeURIComponent(`Tag: ${tag}\nDescription: ${description}`);
+  const mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=${subject}&body=${body}`;
+
+  // Open Gmail online compose page
+  window.open(mailtoLink, '_blank');
+};
+
+
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes, copyNote, copyNoteToClipboard, setCopiedNote, shareViaEmail, shareViaWhatsApp }}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes, copyNote, copyNoteToClipboard, setCopiedNote, shareViaEmail }}>
       {props.children}
     </NoteContext.Provider>
   )
