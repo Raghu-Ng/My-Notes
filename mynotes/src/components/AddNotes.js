@@ -18,11 +18,11 @@ export default function AddNotes() {
     }
   return (
     <div>   
-    <h1>Add ur Notes Here</h1>
+    <h1 style={{color: "white"}}>Add ur Notes Here</h1>
     {/* Note in take form for adding notes */}
     <div className="mb-3">
       <label htmlFor="title" className="form-label">
-        <h5>Title</h5>
+        <h5 style={{color: "white"}}>Title</h5>
       </label>
       <input
         type="text"
@@ -32,12 +32,11 @@ export default function AddNotes() {
         placeholder="XYZ"
         onChange={onChange}
         value={note.title}
-        minLength={5} required
       />
     </div>
     <div className="mb-3">
       <label htmlFor="tag" className="form-label">
-        <h5>tag</h5>
+        <h5 style={{color: "white"}}>tag</h5>
       </label>
       <input
         type="text"
@@ -51,7 +50,7 @@ export default function AddNotes() {
     </div>
     <div className="mb-3">
       <label htmlFor="description" className="form-label">
-        <h5>description</h5>
+        <h5 style={{color: "white"}}>description</h5>
       </label>
       <textarea
         className="form-control"
@@ -61,7 +60,6 @@ export default function AddNotes() {
         defaultValue={""}
         onChange={onChange}
         value={note.description}
-        minLength={8} required
       />      
       <div className="col-12 my-3">
         <button disabled={note.title.length<5 || note.description.length<8} className="btn btn-primary" onClick={handelClick} type="submit">

@@ -12,7 +12,7 @@ import "./app.css"
 function App() {
   return (
     <>
-    <div className="">
+    <div className="full">
     <NoteState>
       <Router>
         <Navbar />

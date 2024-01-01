@@ -7,7 +7,6 @@ import {
   MDBCard,
   MDBCardBody,
   MDBInput,
-  MDBCheckbox,
   MDBIcon
 }
 from 'mdb-react-ui-kit';
@@ -55,10 +54,8 @@ function Signup() {
 
             <MDBInput wrapperClass='mb-4' label='Email' id='form3' type='email'/>
             <MDBInput wrapperClass='mb-4' label='Password' id='form4' type='password'/>
+            <MDBInput wrapperClass='mb-4' label='Confirm Password' id='form4' type='password'/>
 
-            <div className='d-flex justify-content-center mb-4'>
-              <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Subscribe to our newsletter' />
-            </div>
 
             <MDBBtn className='w-100 mb-4' size='md'>sign up</MDBBtn>
 
@@ -67,19 +64,7 @@ function Signup() {
               <p>or sign up with:</p>
 
               <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='facebook-f' size="sm"/>
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='twitter' size="sm"/>
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
                 <MDBIcon fab icon='google' size="sm"/>
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='github' size="sm"/>
               </MDBBtn>
 
             </div>

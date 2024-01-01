@@ -15,6 +15,7 @@ const JWT_SECRET = 'Raghava#th34'
 //route 1 Creating user :post"/api/authen/createuser"
 router.post("/createuser", [
     body('name', 'Enter a valid name').isLength({ min: 3 }),
+    body('name', 'Enter a valid name').isLength({ min: 3 }),
     body('email', 'Enter a valid Email').isEmail(),
     body('password', 'min 8 char').isLength({ min: 8 }),
 ],
@@ -66,22 +67,24 @@ router.post("/login", [
     body('password', 'password cannot be blank').exists(),
 ],
     async (req, res) => {
+        let succes = false;
         //check for errors in the input
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({succes, errors: errors.array() });
         }
 
         const {email, password} = req.body;
         try {
             let user = await User.findOne({ email });
             if (!user){
-            return res.status(400).json({error: "enter the proper login details"});
+            return res.status(400).json({succes, error: "enter the proper login details"});
         }
 
-        const passwordCompare = bcrypt.compare (password, user.password);
+        const passwordCompare = await bcrypt.compare (password, user.password)
         if (!passwordCompare){
-            return res.status(400).json({error: "enter the proper login details"});
+            succes = false;
+            return res.status(400).json({ succes , error: "enter the proper login details"});
         } 
         
         const data ={
@@ -90,7 +93,8 @@ router.post("/login", [
             }
         }
         const authtoken = jwt.sign(data, JWT_SECRET);
-        res.json({authtoken});
+        succes = true;
+        res.json({succes, authtoken});
 
         } catch (error) {
             console.error(error.message);

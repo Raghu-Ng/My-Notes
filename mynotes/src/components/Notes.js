@@ -100,7 +100,7 @@ const onChange=(e)=>{
 
       {/* existing notes will be shown here */}
       <div className="row my-3">
-        <h1>My Notes</h1>
+        <h1 style={{color: "white"}}>My Notes</h1>
         <h5 className='text-center'>{notes.length===0 && 'No notes yet, add now'}</h5>
         {notes.map((note) => {
           return <NoteItems key={note._id} updateNote={updateNote} note={note} />
