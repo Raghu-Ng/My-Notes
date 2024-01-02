@@ -2,34 +2,56 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import noteContext from '../Context/notes/noteContext';
 import NoteItems from './NoteItems';
 import AddNotes from './AddNotes';
+import { useNavigate } from 'react-router-dom';
 
 
-export default function Notes() {
+export default function Notes(props) {
+
   const context = useContext(noteContext);
+  const navigate = useNavigate()
   const { notes, getNotes, editNote } = context;
+
+  useEffect(() => {
+    if(localStorage.getItem('token')){
+      getNotes()
+        console.log("token")
+    }
+    else{
+        navigate('/login')
+        props.showalert('login to your account to get your notes','info')
+    }
+    // eslint-disable-next-line
+}, [])
+
   useEffect(() => {
     getNotes();// eslint-disable-next-line
   }, []);
+
   const ref = useRef(null)
   const refClose = useRef(null)
   const  [note, setNote] = useState({id: "",  title:"", tag: "", description:""})
+
   const updateNote = (currentNote) => {
     ref.current.click();
     setNote({id: currentNote._id, etitle: currentNote.title, etag: currentNote.tag, edescription: currentNote.description});
     // console.log("working updateNote ")
   }
+
   const handelClick= (e)=>{
     editNote(note.id, note.etitle, note.etag, note.edescription)
     refClose.current.click();
+    props.showalert("Notes updated successfully" , "warning")
     // console.log("updating....",note) 
 }
 
 const onChange=(e)=>{
     setNote ({...note, [e.target.name]: e.target.value})
+
+
 }
   return (
     <>
-      <AddNotes />
+      <AddNotes showalert={props.showalert}/>
       {/* edit modal */}
       <button ref={ref} type="button" className="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModal">
         Launch demo modal
@@ -101,9 +123,9 @@ const onChange=(e)=>{
       {/* existing notes will be shown here */}
       <div className="row my-3">
         <h1 style={{color: "white"}}>My Notes</h1>
-        <h5 className='text-center'>{notes.length===0 && 'No notes yet, add now'}</h5>
+        <h5 className='text-center' style={{color: "white"}}>{notes.length===0 && 'No notes yet, add now'}</h5>
         {notes.map((note) => {
-          return <NoteItems key={note._id} updateNote={updateNote} note={note} />
+          return <NoteItems showalert={props.showalert} key={note._id} updateNote={updateNote} note={note} />
         })}
       </div>
     </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   MDBBtn,
   MDBContainer,
@@ -10,9 +10,50 @@ import {
   MDBIcon
 }
 from 'mdb-react-ui-kit';
+import { useNavigate } from 'react-router-dom';
 import "./signup.css"
 
-function Signup() {
+function Signup(props) {
+
+  const {showalert} = props;
+  const [credentials, setcredentials] = useState({firstName:"", lastName:"", email: "", password: "" , cpassword:""});
+  const Navigate = useNavigate();
+  
+  const handleSubmit= async (e)=>{
+    e.preventDefault();
+    // api call
+    const {firstName,lastName,email,password, cpassword} = credentials;
+    
+        // Check if passwords match
+        if (password !== cpassword) {
+          showalert("Passwords do not match", "danger");
+          return;
+        }
+        
+    const response = await fetch(`http://localhost:5000/api/authen/createuser/`, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ firstName,lastName,email,password }),
+    });
+    const json = await response.json()
+    console.log(json.succes)
+    if (json.succes){
+      localStorage.setItem('token', json.authtoken)
+      Navigate("/");
+      showalert("Account created successfully","success")
+    } 
+    else{
+      showalert("Check Details again","danger")
+    }
+  }
+
+  const onChange=(e)=>{
+    setcredentials ({...credentials, [e.target.name]: e.target.value})
+}
+
+
   return (
     <MDBContainer fluid className='p-4 background-radial-gradient overflow-hidden'>
 
@@ -44,20 +85,20 @@ function Signup() {
 
             <MDBRow>
               <MDBCol col='6'>
-                <MDBInput wrapperClass='mb-4' label='First name' id='form1' type='text'/>
+                <MDBInput wrapperClass='mb-4' label='First name' name='firstName' id='firstName' onChange={onChange} type='text'/>
               </MDBCol>
 
               <MDBCol col='6'>
-                <MDBInput wrapperClass='mb-4' label='Last name' id='form2' type='text'/>
+                <MDBInput wrapperClass='mb-4' label='Last name' name='lastName' id='lastName' onChange={onChange} type='text'/>
               </MDBCol>
             </MDBRow>
 
-            <MDBInput wrapperClass='mb-4' label='Email' id='form3' type='email'/>
-            <MDBInput wrapperClass='mb-4' label='Password' id='form4' type='password'/>
-            <MDBInput wrapperClass='mb-4' label='Confirm Password' id='form4' type='password'/>
+            <MDBInput wrapperClass='mb-4' label='Email' name='email' id='email' onChange={onChange} type='email'/>
+            <MDBInput wrapperClass='mb-4' label='Password' name='password' id='password' onChange={onChange} type='password' minLength={8} required/>
+            <MDBInput wrapperClass='mb-4' label='Confirm Password'  name='cpassword' id='cpassword' onChange={onChange} type='password' minLength={8} required/>
 
 
-            <MDBBtn className='w-100 mb-4' size='md'>sign up</MDBBtn>
+            <MDBBtn className='w-100 mb-4'  type='submit' onClick={handleSubmit} size='md'>sign up</MDBBtn>
 
             <div className="text-center">
 

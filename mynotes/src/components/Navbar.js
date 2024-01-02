@@ -1,12 +1,17 @@
 import React from 'react'
 // import { useEffect } from 'react';
-import { Link, useLocation} from "react-router-dom";
+import { Link, useLocation, useNavigate} from "react-router-dom";
 
 export default function Navbar() {
   // // to Know the present location in the webpage to highlight the page we are in 
   let location = useLocation();
   // useEffect(() => {
-  // }, [location]);
+    // }, [location]);
+  const navigate = useNavigate()
+  const handellogout = () => {
+    localStorage.removeItem('token')
+    navigate('/login')
+  }
 
   return (
     <>
@@ -39,8 +44,15 @@ export default function Navbar() {
                 </Link>
               </li>
             </ul>
-              <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
-              <Link className="btn btn-primary mx-1" to="/Signup" role="button">Signup</Link>
+            {!localStorage.getItem('token') ?
+              <div>
+                    <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
+                    <Link className="btn btn-primary mx-1" to="/Signup" role="button">Signup</Link> 
+              </div>
+                :<Link className="btn btn-primary" to="/login" onClick={handellogout} role="button">Log out</Link>}
+                
+              {/* <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
+              <Link className="btn btn-primary mx-1" to="/Signup" role="button">Signup</Link> */}
           </div>
         </div>
       </nav>

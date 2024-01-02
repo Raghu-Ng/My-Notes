@@ -11,7 +11,10 @@ import {
 from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
 import "./login.css"
-function Login() {
+
+function Login(props) {
+
+  const {showalert} = props;
   const [credentials, setcredentials] = useState({email: "", password: ""});
   const Navigate = useNavigate();
 
@@ -30,10 +33,10 @@ function Login() {
     if (json.succes){
       localStorage.setItem('token', json.authtoken)
       Navigate("/");
+      showalert("login successfull","success")
     } 
     else{
-      alert("invalid");
-    }
+      showalert("Invalid Details","danger")    }
   }
 
   const onChange=(e)=>{

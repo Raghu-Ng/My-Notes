@@ -14,29 +14,30 @@ const JWT_SECRET = 'Raghava#th34'
 // });
 //route 1 Creating user :post"/api/authen/createuser"
 router.post("/createuser", [
-    body('name', 'Enter a valid name').isLength({ min: 3 }),
-    body('name', 'Enter a valid name').isLength({ min: 3 }),
+    body('firstName', 'Enter a valid name').isLength({ min: 3 }),
+    body('lastName', 'Enter a valid name'),
     body('email', 'Enter a valid Email').isEmail(),
     body('password', 'min 8 char').isLength({ min: 8 }),
 ],
     async (req, res) => {
+        let succes = false;
         //input verification for inputs
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ succes, errors: errors.array() });
         }
         // check for the user's pre existence
         try {
             let user = await User.findOne({ email: req.body.email });
             if (user) {
-                return res.status(400).json({ error: "user alredy exists, login" })
+                return res.status(400).json({ succes, error: "user alredy exists, login" })
             }
             //pasword securing
             const salt = await bcrypt.genSalt(10);
             const SecPassword = await bcrypt.hash(req.body.password, salt);
             //new user creation
             user = await User.create({
-                name: req.body.name,
+                name: req.body.firstName +' '+ req.body.lastName ,
                 email: req.body.email,
                 password: SecPassword,
             })
@@ -46,7 +47,8 @@ router.post("/createuser", [
                 }
             }
             const authtoken = jwt.sign(data, JWT_SECRET);
-            res.json({authtoken});
+            succes= true
+            res.json({succes, authtoken});
             // res.json(user);
 
         } catch (error) {
