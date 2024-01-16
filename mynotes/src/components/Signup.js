@@ -9,7 +9,6 @@ function Signup(props) {
 
   const {showalert} = props;
   const [credentials, setcredentials] = useState({firstName:"", lastName:"", email: "", password: "" , cpassword:""});
-  const [decodedToken, setDecodedToken] = useState({firstName:"", lastName:"", email: "", password: "" , cpassword:""});
   const Navigate = useNavigate();
 
 
@@ -22,8 +21,8 @@ const handleGoogleLoginSuccess = async (credentialResponse) => {
   if (decodedToken && decodedToken.payload) {
     const { email, family_name, given_name, sub } = decodedToken.payload;
 
-    setDecodedToken({
-      ...decodedToken.payload,
+    setcredentials({
+      ...credentials,
       email,
       firstName: given_name,
       lastName: family_name,
