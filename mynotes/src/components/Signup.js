@@ -18,7 +18,7 @@ const handleGoogleLoginSuccess = async (credentialResponse) => {
   console.log('Decoded Google Login Token:', decodedToken);
 
   // Check if the decoded token contains the necessary information
-  if (decodedToken && decodedToken.payload) {
+  // if (decodedToken && decodedToken.payload) {
     const { email, family_name, given_name, sub } = decodedToken.payload;
 
 
@@ -33,9 +33,9 @@ const handleGoogleLoginSuccess = async (credentialResponse) => {
       // Logic to execute after setting credentials
       handleSubmit();
     });
-  } else {
-    console.error('Decoded Google login token is missing expected properties');
-  }
+  // } else {
+  //   console.error('Decoded Google login token is missing expected properties');
+  // }
 };
 
   
