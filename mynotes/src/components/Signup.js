@@ -1,23 +1,47 @@
 import React, {useState} from 'react';
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBInput,
-  MDBIcon
-}
-from 'mdb-react-ui-kit';
+import {MDBBtn,MDBContainer,MDBRow,MDBCol,MDBCard,MDBCardBody,MDBInput} from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 import "./signup.css"
 
 function Signup(props) {
 
   const {showalert} = props;
   const [credentials, setcredentials] = useState({firstName:"", lastName:"", email: "", password: "" , cpassword:""});
+  const [decodedToken, setDecodedToken] = useState({firstName:"", lastName:"", email: "", password: "" , cpassword:""});
   const Navigate = useNavigate();
+
+
+const handleGoogleLoginSuccess = async (credentialResponse) => {
+  // Decode the JWT token to get user information
+  const decodedToken = jwtDecode(credentialResponse.credential);
+  console.log('Decoded Google Login Token:', decodedToken);
+
+  // Check if the decoded token contains the necessary information
+  if (decodedToken && decodedToken.payload) {
+    const { email, family_name, given_name, sub } = decodedToken.payload;
+
+    setDecodedToken({
+      ...decodedToken.payload,
+      email,
+      firstName: given_name,
+      lastName: family_name,
+      password: sub,
+      cpassword: sub,
+    }, () => {
+      // Logic to execute after setting credentials
+      handleSubmit();
+    });
+  } else {
+    console.error('Decoded Google login token is missing expected properties');
+  }
+};
+
+  
+
+
+
   
   const handleSubmit= async (e)=>{
     e.preventDefault();
@@ -52,6 +76,10 @@ function Signup(props) {
   const onChange=(e)=>{
     setcredentials ({...credentials, [e.target.name]: e.target.value})
 }
+
+
+
+
 
 
   return (
@@ -105,7 +133,18 @@ function Signup(props) {
               <p>or sign up with:</p>
 
               <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='google' size="sm"/>
+              <GoogleLogin
+                onSuccess={credentialResponse => {
+                  const decoded = jwtDecode(credentialResponse.credential);
+                  console.log(decoded);
+
+                  handleGoogleLoginSuccess()
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+                // onClick={handleGoogleLoginSuccess}
+                />;
               </MDBBtn>
 
             </div>
