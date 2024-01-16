@@ -14,15 +14,17 @@ function Signup(props) {
 
 const handleGoogleLoginSuccess = async (credentialResponse) => {
   // Decode the JWT token to get user information
+  console.log( "handleGoogleLoginSuccess started" )
   const decodedToken = jwtDecode(credentialResponse.credential);
   console.log('Decoded Google Login Token:', decodedToken);
 
   // Check if the decoded token contains the necessary information
   // if (decodedToken && decodedToken.payload) {
+    const { credentials } = credentialResponse;
     const { email, family_name, given_name, sub } = decodedToken.payload;
 
 
-    setcredentials({
+    await setcredentials({
       ...credentials,
       email,
       firstName: given_name,
